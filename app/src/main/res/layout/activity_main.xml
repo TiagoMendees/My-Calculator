@@ -136,7 +136,7 @@
         android:textColor="#FFFFFF"
         app:backgroundTint="#00000000"
         app:iconTint="#00000000"
-        app:layout_constraintBottom_toTopOf="@+id/dot"
+        app:layout_constraintBottom_toTopOf="@+id/Clear"
         app:layout_constraintStart_toEndOf="@+id/two" />
 
     <Button
@@ -170,13 +170,27 @@
         android:id="@+id/sample_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:text="1+1"
+        android:textSize="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.562"
+        app:layout_constraintHorizontal_bias="0.955"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.126" />
+        app:layout_constraintVertical_bias="0.329" />
+
+    <TextView
+        android:id="@+id/sample_text2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2"
+        android:textSize="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.955"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.406" />
 
     <Button
         android:id="@+id/Equals"
@@ -204,13 +218,13 @@
         app:layout_constraintStart_toEndOf="@+id/Equals" />
 
     <Button
-        android:id="@+id/dot"
+        android:id="@+id/Clear"
         android:layout_width="78dp"
         android:layout_height="78dp"
         android:layout_marginStart="21dp"
         android:layout_marginBottom="21dp"
-        android:text="."
-        android:textColor="#FFFFFF"
+        android:text="C"
+        android:textColor="#FF6122"
         app:backgroundTint="#00000000"
         app:iconTint="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -228,6 +242,16 @@
         app:backgroundTint="#00FF6122"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/dot" />
+        app:layout_constraintStart_toEndOf="@+id/Clear" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="593dp"
+        android:layout_height="37dp"
+        android:layout_marginBottom="30dp"
+        android:text="___________________________________________________________________________________"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="-91dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
