@@ -27,11 +27,11 @@ public:
         return false;
     }
 
-    int calculate(string input)
+    double calculate(string input)
     {
         // Define Variables
         std::string numStr, eval;
-        int result = 0, num;
+        double result = 0, num;
 
         // Simplify: remove spaces (easy part)
         for (auto i : input)
@@ -57,14 +57,14 @@ public:
 
                 for (int j = i + 1; j < eval.size(); j++) //2*3+1
                 {
-                    if (!isdigit(eval[j]))
-                    {
-                        j = eval.size();
-                    }
-                    else
+                    if (isdigit(eval[j]) || eval[j] == '.')
                     {
                         next += eval[j];
                         size2++;
+                    }
+                    else
+                    {
+                        j = eval.size();
                     }
                 }
 
@@ -74,33 +74,32 @@ public:
 
                 for (int j = i - 1; j >= 0; j--)
                 {
-                    if (!isdigit(eval[j]))
-                    {
-                        start = j + 1;
-                        break;
-                    }
-                    else
+                    if (isdigit(eval[j]) || eval[j] == '.') //!isdigit(eval[j])
                     {
                         prev += eval[j];
                         size++;
+                    }
+                    else
+                    {
+                        start = j + 1;
+                        break;
                     }
                 }
 
                 reverse(prev.begin(), prev.end());
 
-                int res;
+                double res;
 
                 if (eval[i] == '*')
-                    res = stoi(prev) * stoi(next);
+                    res = stod(prev) * stod(next);
                 else
-                    res = stoi(prev) / stoi(next);
+                    res = stod(prev) / stod(next);
 
                 string str = to_string(res);
 
                 eval.insert(i+1, str);
                 eval.erase(start, size+1);
 
-                cout << eval << endl;
                 i = eval.size();
             }
         }
@@ -117,12 +116,12 @@ public:
             {
                 int k = i + 1;
 
-                while (k < eval.size() && isdigit(eval[k]))
+                while (k < eval.size() && (isdigit(eval[k]) || eval[k] == '.'))
                 {
                     numStr += eval[k];
                     k++;
                 }
-                num = std::stoi(numStr);
+                num = std::stod(numStr);
             }
 
             if (eval[i] == '+')

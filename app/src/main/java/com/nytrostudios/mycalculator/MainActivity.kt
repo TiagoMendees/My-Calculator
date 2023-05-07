@@ -43,8 +43,10 @@ class MainActivity : AppCompatActivity() {
         val multiply = findViewById<Button>(R.id.Multiply)
         val clear = findViewById<Button>(R.id.Clear)
         val erase = findViewById<Button>(R.id.erase)
+        val dot = findViewById<Button>(R.id.dot)
         var op = "1+1"
 
+        dot.setOnClickListener { op = concat(op, "."); binding.sampleText.text = op}
         equal.setOnClickListener { binding.sampleText2.text = calc(op) }
         erase.setOnClickListener { op = removeLast(op); binding.sampleText.text = op}
         clear.setOnClickListener {op = ""; binding.sampleText.text = ""; binding.sampleText2.text = ""}
