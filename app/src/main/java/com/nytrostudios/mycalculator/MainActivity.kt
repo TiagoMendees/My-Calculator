@@ -9,6 +9,13 @@ fun concat(s1: String, s2: String): String {
     return s1 + s2
 }
 
+fun removeLast(str: String): String {
+    if(str.length > 0)
+        return str.substring(0, str.length - 1)
+    else
+        return  ""
+}
+
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
@@ -35,14 +42,11 @@ class MainActivity : AppCompatActivity() {
         val minus = findViewById<Button>(R.id.minus)
         val multiply = findViewById<Button>(R.id.Multiply)
         val clear = findViewById<Button>(R.id.Clear)
+        val erase = findViewById<Button>(R.id.erase)
         var op = "1+1"
 
-
-        equal.setOnClickListener {
-            binding.sampleText2.text = calc(op)
-
-        }
-
+        equal.setOnClickListener { binding.sampleText2.text = calc(op) }
+        erase.setOnClickListener { op = removeLast(op); binding.sampleText.text = op}
         clear.setOnClickListener {op = ""; binding.sampleText.text = ""; binding.sampleText2.text = ""}
         plus.setOnClickListener { op = concat(op, "+"); binding.sampleText.text = op}
         divide.setOnClickListener { op = concat(op, "/"); binding.sampleText.text = op }
