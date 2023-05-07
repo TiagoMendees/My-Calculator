@@ -13,130 +13,122 @@
 #include <set>
 #include <unordered_set>
 
-class Solution {
+using namespace std;
+
+class Solution
+{
 public:
 
-    void simplify(std::string& eval, int index, char type, bool restrictions = false)
+    const bool Continue(string str)
     {
-        // -(3+(4+5)) ---> -3-(4-5))
-
-        for (int i = index; i < eval.size(); i++)
-        {
-            if (eval[i] == '-' && eval[i + 1] == '(')
-            {
-                if(eval[i+2] == '-')
-                {
-                    eval.erase(i+2, 1);
-                    eval[i] = '+';
-                }
-
-                if(type == '-')
-                    eval[index] = '+';
-
-                eval.erase(i+1, 1);
-
-                std::stack<char> st;
-                int j = i+1;
-
-                if(eval[j] == '(')
-                    j--;
-
-
-                st.push('(');
-
-                while(!st.empty())
-                {
-                    if(eval[j] == '-' && eval[j+1] == '(')
-                    {
-                        simplify(eval, j, '-', 1);
-                        st.push('(');
-                    }
-                    else if(eval[j] == '-' && eval[j+1] != '(')
-                        eval[j] = '+';
-                    else if(eval[j] == '+' && eval[j+1] == '(')
-                    {
-                        eval[j] = '-';
-                        eval.erase(j+1, 1);
-                        st.push('(');
-                    } else if(eval[j] == '+' && eval[j+1] != '(')
-                        eval[j] = '-';
-                    else if(eval[j] == ')')
-                    {
-                        st.pop();
-                        eval.erase(j,1);
-                        if(restrictions)
-                            i = eval.size();
-
-                    }
-                    else if(eval[j] == '(')
-                        st.push('(');
-                    j++;
-                    std::cout << eval << std::endl;
-                }
-            }
-
-        }
-
+        for(auto i:str)
+            if(i == '/' || i == '*')
+                return true;
+        return false;
     }
 
-    int calculate(std::string input)
+    int calculate(string input)
     {
-        //Define Variables
-        std::string eval, numStr;
+        // Define Variables
+        std::string numStr, eval;
         int result = 0, num;
 
-        //Simplify: remove spaces (easy part)
-        for(auto i:input)
-            if(i != ' ')
-                eval+=i;
-
-        //Simplify: remove parentheses (hard part)
-
-        simplify(eval, 0, '+', false);
-
-        //Simplify: remove parentheses(part 2) (easy part)
+        // Simplify: remove spaces (easy part)
+        for (auto i : input)
+            if (i != ' ')
+                eval += i;
 
         for (int i = 0; i < eval.size(); i++)
-            if(eval[i] == '(' || eval[i] == ')')
-                eval.erase(i, 1);
+            if(eval[i] == 'x')
+                eval[i] = '*';
+
+
+        // solve multiplications and divisions(Hard part)
+
+        redo:
 
         for (int i = 0; i < eval.size(); i++)
         {
-            if(eval[i] == '+' && eval[i+1] == '-')
-                eval.erase(i ,1);
-            else if(eval[i] == '+' && eval[i+1] == '+')
-                eval.erase(i,1);
-            else if(eval[i] == '-' && eval[i+1] == '+')
-                eval.erase(i+1,1);
-            else if(eval[i] == '-' && eval[i+1] == '-')
+            if (eval[i] == '/' || eval[i] == '*')
             {
-                eval.erase(i+1, 1);
-                eval[i] == '+';
+                string prev, next;
+
+                int size2 = 0;
+
+                for (int j = i + 1; j < eval.size(); j++) //2*3+1
+                {
+                    if (!isdigit(eval[j]))
+                    {
+                        j = eval.size();
+                    }
+                    else
+                    {
+                        next += eval[j];
+                        size2++;
+                    }
+                }
+
+                eval.erase(i+1, size2);
+
+                int size = 0, start = 0;
+
+                for (int j = i - 1; j >= 0; j--)
+                {
+                    if (!isdigit(eval[j]))
+                    {
+                        start = j + 1;
+                        break;
+                    }
+                    else
+                    {
+                        prev += eval[j];
+                        size++;
+                    }
+                }
+
+                reverse(prev.begin(), prev.end());
+
+                int res;
+
+                if (eval[i] == '*')
+                    res = stoi(prev) * stoi(next);
+                else
+                    res = stoi(prev) / stoi(next);
+
+                string str = to_string(res);
+
+                eval.insert(i+1, str);
+                eval.erase(start, size+1);
+
+                cout << eval << endl;
+                i = eval.size();
             }
         }
 
-        //solve (medium part)
-        if(eval[0] != '+' && eval[0] != '-')
-            eval.insert(eval.begin(),'+');
+        if(Continue(eval))
+            goto redo;
+
+        if (eval[0] != '+' && eval[0] != '-')
+            eval.insert(eval.begin(), '+');
 
         for (int i = 0; i < eval.size(); i++)
         {
-            if(eval[i] == '+' || eval[i] == '-')
+            if (eval[i] == '+' || eval[i] == '-')
             {
-                int k = i+1;
+                int k = i + 1;
 
-                while(k < eval.size() && isdigit(eval[k]))
+                while (k < eval.size() && isdigit(eval[k]))
                 {
-                    numStr+=eval[k];
+                    numStr += eval[k];
                     k++;
                 }
                 num = std::stoi(numStr);
             }
 
-            if(eval[i] == '+')
-                result+=num;
+            if (eval[i] == '+')
+                result += num;
             else if (eval[i] == '-')
-                result-=num;
+                result -= num;
 
             numStr = "";
         }

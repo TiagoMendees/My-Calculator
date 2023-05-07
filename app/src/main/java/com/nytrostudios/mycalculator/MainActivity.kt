@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
         clear.setOnClickListener {op = ""; binding.sampleText.text = ""; binding.sampleText2.text = ""}
         plus.setOnClickListener { op = concat(op, "+"); binding.sampleText.text = op}
         divide.setOnClickListener { op = concat(op, "/"); binding.sampleText.text = op }
-        multiply.setOnClickListener { op = concat(op, "*"); binding.sampleText.text = op }
+        multiply.setOnClickListener { op = concat(op, "x"); binding.sampleText.text = op }
         minus.setOnClickListener { op = concat(op, "-"); binding.sampleText.text = op }
         one.setOnClickListener { op = concat(op, "1"); binding.sampleText.text = op }
         two.setOnClickListener { op = concat(op, "2"); binding.sampleText.text = op }
